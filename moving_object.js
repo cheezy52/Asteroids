@@ -18,6 +18,9 @@
 	}
 
 	MovingObject.prototype.draw = function(ctx){
+		ctx.lineWidth = this.radius / 12;
+		ctx.strokeStyle = 'white';
+
 		ctx.fillStyle = this.color;
 		ctx.beginPath();
 
@@ -31,6 +34,7 @@
 		);
 
 		ctx.fill();
+		ctx.stroke();
 	};
 
 	MovingObject.prototype.isCollidedWith = function(obj){

@@ -12,11 +12,14 @@
 		this.ship = new Ship([Game.DIM_X / 2, Game.DIM_Y / 2], [0,0]);
 		this.bullets = [];
 		this.score = 0;
+		//this.img = new Image();
+		//this.img.src = Game.BACKGROUND;
 	};
 
 	Game.DIM_X = 500;
 	Game.DIM_Y = 500;
 	Game.FPS = 60;
+	//Game.BACKGROUND = "./background.jpg";
 
 	Game.prototype.addAsteroids = function(numAsteroids){
 		for(var i = 0; i < numAsteroids; i++){
@@ -26,6 +29,8 @@
 
 	Game.prototype.draw = function (ctx){
 		ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y);
+
+		this.drawBackground(ctx);
 
 		this.asteroids.forEach(function (asteroid) {
 			asteroid.draw(ctx);
@@ -38,6 +43,12 @@
 		})
 		this.drawScore(ctx);
 	};
+
+	Game.prototype.drawBackground = function(ctx) {
+		//ctx.drawImage(this.img, 0, 0);
+		ctx.fillStyle = "black";
+		ctx.fillRect(0, 0, Game.DIM_X, Game.DIM_Y)
+	}
 
 	Game.prototype.drawScore = function(ctx){
 		ctx.fillStyle = "red";

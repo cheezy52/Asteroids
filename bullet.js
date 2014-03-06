@@ -8,7 +8,7 @@
 	};
 
 	Bullet.RADIUS = 2;
-	Bullet.COLOR = "blue";
+	Bullet.COLOR = "yellow";
 	Bullet.SHOT_VEL_SCALE = 10;
 	Bullet.LIFETIME = 40;
 
