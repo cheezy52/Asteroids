@@ -9,7 +9,7 @@
 	};
 
 	Ship.inherits(Asteroids.MovingObject);
-	Ship.RADIUS = 5;
+	Ship.RADIUS = 7;
 	Ship.COLOR = "red";
 	Ship.IMPULSE_SCALE = 0.1;
 
@@ -40,6 +40,34 @@
 		shotPos[0] = this.pos[0];
 		shotPos[1] = this.pos[1];
 		return new Bullet(shotPos, shotVel);
+	}
+
+	Ship.prototype.draw = function(ctx) {
+		var startPos = this.pos;
+		var startX = startPos[0];
+		var startY = startPos[1];
+
+		var shipAngle = Math.asin(this.facing()[1]);
+		if(this.facing()[0] > 0) {
+			if (shipAngle > 0) {
+				shipAngle += ((Math.PI / 2) - shipAngle) * 2;
+			} else {
+				shipAngle -= ((-Math.PI / 2) + shipAngle) * 2;
+			}
+		}
+
+		ctx.fillStyle = "red";
+		ctx.beginPath();
+		ctx.moveTo(startX - Math.cos(shipAngle) * Ship.RADIUS,
+							 startY + Math.sin(shipAngle) * Ship.RADIUS);
+		ctx.lineTo(startX - Math.cos(shipAngle + (2/3 * Math.PI)) * Ship.RADIUS,
+							 startY + Math.sin(shipAngle + (2/3 * Math.PI)) * Ship.RADIUS);
+		ctx.lineTo(startX, startY);
+		ctx.lineTo(startX - Math.cos(shipAngle - (2/3 * Math.PI)) * Ship.RADIUS,
+ 							 startY + Math.sin(shipAngle - (2/3 * Math.PI)) * Ship.RADIUS);
+		ctx.closePath();
+		ctx.fill();
+
 	}
 
 })(this);

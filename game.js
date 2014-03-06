@@ -11,6 +11,7 @@
 		this.asteroids = [];
 		this.ship = new Ship([Game.DIM_X / 2, Game.DIM_Y / 2], [0,0]);
 		this.bullets = [];
+		this.score = 0;
 	};
 
 	Game.DIM_X = 500;
@@ -35,7 +36,14 @@
 		this.bullets.forEach(function (bullet) {
 			bullet.draw(ctx);
 		})
+		this.drawScore(ctx);
 	};
+
+	Game.prototype.drawScore = function(ctx){
+		ctx.fillStyle = "red";
+		ctx.font = 12+"pt Courier ";
+		ctx.fillText("Score: "+this.score, 20, 20);
+	}
 
 	Game.prototype.bindKeyHandlers = function (){
 		var game = this;
@@ -45,24 +53,23 @@
 	}
 
 	Game.prototype.move = function(){
+		var game = this;
+
 		this.ship.move(Game.DIM_X, Game.DIM_Y);
 
 		this.bullets.forEach(function (bullet) {
-			bullet.move(Game.DIM_X, Game.DIM_Y);
+			if (bullet.tooOld()) {
+				bullet.die(game);
+			} else {
+				bullet.move(Game.DIM_X, Game.DIM_Y);
+				bullet.age += 1;
+			}
 		})
 
 		this.asteroids.forEach(function (asteroid) {
 			asteroid.move(Game.DIM_X, Game.DIM_Y);
 		})
 	};
-
-	Game.prototype.removeAsteroid = function(a_idx){
-		this.asteroids.splice(a_idx, 1);
-	}
-
-	Game.prototype.removeBullet = function(b_idx){
-		this.bullets.splice(b_idx, 1);
-	}
 
 	Game.prototype.checkVictory = function(){
 		if (this.asteroids.length === 0){
@@ -78,24 +85,25 @@
 	Game.prototype.checkCollisions = function() {
 		var game = this;
 		this.asteroids.forEach(function(asteroid) {
-			if(asteroid.isCollidedWith(game.ship)) {
-				alert("Game over! Better luck next time!");
-				game.stop();
-			}
 			game.bullets.forEach(function(bullet){
 				if(asteroid.isCollidedWith(bullet)){
-					game.removeAsteroid(game.asteroids.indexOf(asteroid));
-					game.removeBullet(game.bullets.indexOf(bullet));
+					asteroid.die(game);
+					bullet.die(game);
 				};
 			})
+			if(asteroid.isCollidedWith(game.ship)) {
+ 				game.stop();
+ 				alert("Game over! Better luck next time!");
+ 				return;
+ 			}
 		})
 	}
 
 	Game.prototype.step = function (ctx){
 		this.getThrottleInputs();
 		this.move();
-		this.checkCollisions();
 		this.draw(ctx);
+		this.checkCollisions();
 		this.checkVictory();
 	}
 
