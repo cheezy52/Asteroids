@@ -9,6 +9,6 @@ To start the game, simply open index.html in your browser of choice.  (There may
 Controls
 =========
 
-W:  Increase thrust
-A/D:  Turn ship left/right
+WASD:  Increase thrust up/left/down/right
+
 Spacebar:  Fire weapon

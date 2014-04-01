@@ -82,10 +82,13 @@
 		})
 	};
 
-	Game.prototype.checkVictory = function(){
+	Game.prototype.checkVictory = function(ctx){
 		if (this.asteroids.length === 0){
 			this.stop();
-			alert("A winner is you.");
+			ctx.fillStyle = "green";
+			ctx.font = 36+"pt Courier Bold";
+			ctx.textAlign = "center";
+			ctx.fillText("YOU WIN!", Game.DIM_X / 2, Game.DIM_Y / 2);
 		}
 	};
 
@@ -93,7 +96,7 @@
 				window.clearInterval(this.interval);
 	}
 
-	Game.prototype.checkCollisions = function() {
+	Game.prototype.checkCollisions = function(ctx) {
 		var game = this;
 		this.asteroids.forEach(function(asteroid) {
 			game.bullets.forEach(function(bullet){
@@ -104,7 +107,10 @@
 			})
 			if(asteroid.isCollidedWith(game.ship)) {
  				game.stop();
- 				alert("Game over! Better luck next time!");
+ 				ctx.fillStyle = "red";
+				ctx.font = 36+"pt Courier Bold ";
+				ctx.textAlign = "center";
+				ctx.fillText("GAME OVER", Game.DIM_X / 2, Game.DIM_Y / 2 - 20);
  				return;
  			}
 		})
@@ -114,8 +120,8 @@
 		this.getThrottleInputs();
 		this.move();
 		this.draw(ctx);
-		this.checkCollisions();
-		this.checkVictory();
+		this.checkCollisions(ctx);
+		this.checkVictory(ctx);
 	}
 
 	Game.prototype.getThrottleInputs = function() {
