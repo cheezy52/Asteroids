@@ -12,6 +12,7 @@
 	Asteroid.RADIUS = 24;
 	Asteroid.SAFEX = 0.3;
 	Asteroid.SAFEY = 0.3;
+	Asteroid.DEATH_SPLIT_VEL_SCALE = 3;
 
 	Asteroid.randomAsteroid = function(dimX, dimY){
 		var position = [Math.random() * dimX, Math.random() * dimY];
@@ -27,6 +28,10 @@
 		return [(Math.random() -0.5) * scale, (Math.random() -0.5) * scale];
 	};
 
+	Asteroid.descendantVel = function(scale, vel){
+		return [vel[0] + scale*(Math.random() - 0.5), vel[1] + scale*(Math.random() - 0.5)];
+	}
+
 
 	var BigAsteroid = Asteroids.BigAsteroid = function(pos, vel) {
 		Asteroids.Asteroid.call(this, pos, vel, BigAsteroid.RADIUS, Asteroid.COLOR);
@@ -39,10 +44,11 @@
 
 	BigAsteroid.prototype.die = function(game) {
 		game.asteroids.splice(game.asteroids.indexOf(this), 1);
+		//explicit pos dereferencing to prevent pass-by-reference issues
 		var pos1 = [this.pos[0], this.pos[1]];
 		var pos2 = [this.pos[0], this.pos[1]];
-		var vel1 = [this.vel[0] - 1, this.vel[1]];
-		var vel2 = [this.vel[0] + 1, this.vel[1]];
+		var vel1 = Asteroid.descendantVel(Asteroid.DEATH_SPLIT_VEL_SCALE, this.vel);
+		var vel2 = Asteroid.descendantVel(Asteroid.DEATH_SPLIT_VEL_SCALE, this.vel);
 
 		var spawn1 = new MedAsteroid(pos1, vel1);
 		var spawn2 = new MedAsteroid(pos2, vel2);
@@ -62,10 +68,11 @@
 
 	MedAsteroid.prototype.die = function(game) {
 		game.asteroids.splice(game.asteroids.indexOf(this), 1);
+		//explicit pos dereferencing to prevent pass-by-reference issues
 		var pos1 = [this.pos[0], this.pos[1]];
 		var pos2 = [this.pos[0], this.pos[1]];
-		var vel1 = [this.vel[0] - 1, this.vel[1]];
-		var vel2 = [this.vel[0] + 1, this.vel[1]];
+		var vel1 = Asteroid.descendantVel(Asteroid.DEATH_SPLIT_VEL_SCALE, this.vel);
+		var vel2 = Asteroid.descendantVel(Asteroid.DEATH_SPLIT_VEL_SCALE, this.vel);
 
 		var spawn1 = new SmlAsteroid(pos1, vel1);
 		var spawn2 = new SmlAsteroid(pos2, vel2);

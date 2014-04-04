@@ -3,7 +3,7 @@
 <head>
 </head>
 <body>
-	<canvas width="500" height="500"></canvas>
+	<canvas></canvas>
 	<br>
 	<a href="index.html">Play Again</a>
 	<script src = "keymaster.js"></script>
@@ -15,7 +15,11 @@
 	<script src = "game.js"></script>
 	<script>
 	  var canvas = document.getElementsByTagName("canvas")[0];
-		g = new Asteroids.Game();
+	  //var width = canvas.width = window.innerWidth - 50;
+	  //var height = canvas.height = window.innerHeight - 50;
+	  var width = canvas.width = 500;
+	  var height = canvas.height = 500;
+	  g = new Asteroids.Game(width, height);
 		g.start(canvas);
 	</script>
 </body>

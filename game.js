@@ -7,8 +7,10 @@
 	var Ship = Asteroids.Ship;
 	var Bullet = Asteroids.Bullet;
 
-	var Game = Asteroids.Game = function() {
+	var Game = Asteroids.Game = function(DIM_X, DIM_Y) {
 		this.asteroids = [];
+		Game.DIM_X = DIM_X;
+		Game.DIM_Y = DIM_Y;
 		this.ship = new Ship([Game.DIM_X / 2, Game.DIM_Y / 2], [0,0]);
 		this.bullets = [];
 		this.score = 0;
@@ -16,8 +18,6 @@
 		//this.img.src = Game.BACKGROUND;
 	};
 
-	Game.DIM_X = 500;
-	Game.DIM_Y = 500;
 	Game.FPS = 60;
 	//Game.BACKGROUND = "./background.jpg";
 
@@ -110,7 +110,7 @@
  				ctx.fillStyle = "red";
 				ctx.font = 36+"pt Courier Bold ";
 				ctx.textAlign = "center";
-				ctx.fillText("GAME OVER", Game.DIM_X / 2, Game.DIM_Y / 2 - 20);
+				ctx.fillText("GAME OVER", Game.DIM_X / 2, Game.DIM_Y / 2);
  				return;
  			}
 		})
